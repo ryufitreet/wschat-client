@@ -1,0 +1,86 @@
+*
+  box-sizing: border-box;
+
+body, *
+  font-family: Tahoma, sans-serif;
+  margin: 0;
+  padding: 0;
+
+html, body, #app
+  height: 100%;
+  font-size: 13px;
+
+.enter-form-view
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  transition: background-color .5s ease-out;
+
+  &-signin
+    background-color: #5682a3;
+  &-signup
+    background-color: #50C878;
+
+.enter-form
+  background: white;
+  border-radius: 2px;
+  border: 1px solid #eee;
+  box-shadow: 0 1px 1px rgba(97,127,152,.2), 1px 0 0 rgba(97,127,152,.1), -1px 0 0 rgba(97,127,152,.1);
+  max-width: 400px;
+  padding: 20px;
+
+  &__input
+    border: none;
+    border-bottom: 1px solid #e6e6e6;
+    height: 35px;
+    outline: none;
+    padding-left: 5px;
+    margin-bottom: 10px;
+    width: 100%;
+    cursor: pointer;
+    &:focus
+      border-bottom: 2px solid #6bace1;
+  &__title
+    font-size: 1.2rem;
+    text-align: center;
+  &__under-form-link
+    color: #a6a6a6;
+    font-size: 0.9rem;
+    text-align: center;
+    margin-top: 10px;
+
+  &__error
+    color: rgba(255,0,0,0.8);
+    text-align: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    height: 25px;
+
+
+.btn
+  width: 100%;
+  display: block;
+  height: 30px;
+  cursor: pointer;
+  color: #fff;
+  font-size: 1.1rem;
+  text-align: center;
+  line-height: 30px;
+  vertical-align: middle;
+
+  &-blue
+    border: 1px solid #0088cc;
+    background: #0088cc;
+
+  &-green
+    border: 1px solid #32CD32;
+    background: #32CD32;
+  
+  &:hover
+    opacity: 0.8
+  
+
+// #5682a3 - blue background
+// 

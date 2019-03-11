@@ -9,7 +9,7 @@ import {
   BACKEND_URL,
 } from '@/const';
 
-const axiosMiddleware = (method, url, params) => {
+const authMiddleware = (method, url, params) => {
   const { token: AuthToken } = store.state.me;
   return axios({
     method,
@@ -36,15 +36,17 @@ const axiosMiddleware = (method, url, params) => {
 const API = {
   users: {
     me() {
-      return axiosMiddleware('get', `${BACKEND_URL}/api/users/me`);
+      return authMiddleware('get', `${BACKEND_URL}/api/users/me`)
     },
   },
   messages: {
-    getAll() {
-      return axiosMiddleware('get', `${BACKEND_URL}/api/messages/main`);
+    getAll(page = '1') {
+      let p = authMiddleware('get', `${BACKEND_URL}/api/messages/main/${page}`);
+      p = p.then(data => data.reverse());
+      return p;
     },
     put(message) {
-      return axiosMiddleware('put', `${BACKEND_URL}/api/messages/main`, message);
+      return authMiddleware('put', `${BACKEND_URL}/api/messages/main`, message);
     },
   },
 };

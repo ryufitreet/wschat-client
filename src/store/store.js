@@ -13,6 +13,9 @@ import {
   SET_USERS,
   SET_BUFFERED_MESSAGES,
   CHANGE_WS_CONNECTION_STATE,
+  SET_CHAT_PAGE,
+  SET_IS_LAST_PAGE,
+  UNSHIFT_TO_CHAT_FLOW,
 } from '@/store/types/mutations';
 
 import {
@@ -42,6 +45,8 @@ const store = new Vuex.Store({
     message: '',
     chatFlow: [],
     chatMessages: {},
+    chatPage: 1,
+    isLastPage: false,
     wsConnected: false,
   },
   mutations: {
@@ -66,6 +71,9 @@ const store = new Vuex.Store({
         state.chatFlow.push(payload);
       }
     },
+    [UNSHIFT_TO_CHAT_FLOW](state, payload=[]) {
+      state.chatFlow.unshift(...payload);
+    },
     [ADD_TO_CHAT_MESSAGES](state, payload) {
       Object.keys(payload).forEach((messageId) => {
         state.chatMessages[messageId] = payload[messageId];
@@ -79,6 +87,12 @@ const store = new Vuex.Store({
     },
     [CHANGE_WS_CONNECTION_STATE](state, payload) {
       state.wsConnected = payload;
+    },
+    [SET_CHAT_PAGE](state, page) {
+      state.chatPage = page;
+    },
+    [SET_IS_LAST_PAGE](state, isLast) {
+      state.isLastPage = isLast;
     },
   },
   actions: {
@@ -99,9 +113,9 @@ const store = new Vuex.Store({
         commit(SET_MESSAGE, JSON.parse(localStorage.message));
       }
     },
-    [FETCH_MESSAGE_HISTORY]({state, commit}, payload=0) {
-      const { page = 0 } = payload;
-      API.messages.getAll()
+    [FETCH_MESSAGE_HISTORY]({state, commit}, payload = {}) {
+      const { page = 1 } = payload;
+      return API.messages.getAll(page)
         .then((data) => {
           const normalizedData = normalize(data, messageListScheme);
           const { users={}, message={} } = normalizedData.entities;
@@ -109,8 +123,12 @@ const store = new Vuex.Store({
 
           commit(SET_USERS, users);
 
-          commit(ADD_TO_CHAT_FLOW, messageIdsList);
+          commit(UNSHIFT_TO_CHAT_FLOW, messageIdsList);
           commit(ADD_TO_CHAT_MESSAGES, message);
+          commit(SET_CHAT_PAGE, page);
+          if (data.length < 50) {
+            commit(SET_IS_LAST_PAGE, true);
+          }
         })
         .catch(error => console.error(error));
     },

@@ -1,8 +1,9 @@
 <template>
   <div :class="$style['container']">
     <textarea
-      :class="$style['message-field']"
       v-model="message"
+      @keydown.ctrl.enter="onClickSend"
+      :class="$style['message-field']"
     />
     <div
       @click="onClickSend"

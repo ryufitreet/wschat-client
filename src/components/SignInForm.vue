@@ -50,8 +50,8 @@ import { makeAuthToken } from '@/utils';
 
 export default {
   data() {
-    const login = '';
-    const password = '';
+    const login = 'admin';
+    const password = 'admin';
     const error = false;
 
     return {

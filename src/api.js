@@ -9,7 +9,9 @@ import {
   BACKEND_URL,
 } from '@/const';
 
-const authMiddleware = (method, url, params) => {
+import WSClient from '@/websocket';
+
+const authAxiosWrapper = (method, url, params) => {
   const { token: AuthToken } = store.state.me;
   return axios({
     method,
@@ -36,17 +38,19 @@ const authMiddleware = (method, url, params) => {
 const API = {
   users: {
     me() {
-      return authMiddleware('get', `${BACKEND_URL}/api/users/me`)
+      return authAxiosWrapper('get', `${BACKEND_URL}/api/users/me`)
     },
   },
   messages: {
     getAll(page = '1') {
-      let p = authMiddleware('get', `${BACKEND_URL}/api/messages/main/${page}`);
+      let p = authAxiosWrapper('get', `${BACKEND_URL}/api/messages/main/${page}`);
       p = p.then(data => data.reverse());
       return p;
     },
     put(message) {
-      return authMiddleware('put', `${BACKEND_URL}/api/messages/main`, message);
+      return Promise.resolve().then(() => {
+        WSClient.sendMessage(message)
+      });
     },
   },
 };

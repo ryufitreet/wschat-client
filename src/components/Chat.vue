@@ -16,7 +16,9 @@
           :class="$style['users-list-btn']"
           @click="toggleUsersList"
         >
-          <eva-icon name="people-outline" fill="#0088cc" />
+          <template v-if="usersCountInChat !== -1">
+            {{ usersCountInChat }} users online
+          </template>
         </div>
         <transition name="users-list">
           <div
@@ -28,7 +30,10 @@
         </transition>
       </div>
       <div>
-        <div @click="signOutClick">
+        <div
+          @click="signOutClick"
+          :class="$style['log-out-btn']"
+        >
           <eva-icon name="log-out" fill="#0088cc"></eva-icon>
         </div>
       </div>
@@ -71,12 +76,18 @@ export default {
     };
   },
   computed: {
-    ...mapState(['me', 'wsConnected']),
+    ...mapState([
+        'me',
+        'wsConnected',
+        'usersCountInChat',
+      ]),
   },
   mounted() {
     this.FETCH_MESSAGE_HISTORY();
     // Register WebWorker
-    websocketChat.init();
+    websocketChat.init(() => {
+      websocketChat.sendMessage({}, 'GET_USERS_COUNT');
+    });
   },
   methods: {
     ...mapActions({
@@ -138,7 +149,13 @@ export default {
 
 .users-list-container {
   position: absolute;
-  top: 45px;
-  left: calc(50% - 75px);
+  top: 35px;
+  transform: translate(-50%);
+  left: 50%;
+}
+.log-out-btn {
+  cursor: pointer;
+  z-index: 50;
+  position: relative;
 }
 </style>

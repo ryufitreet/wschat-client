@@ -16,6 +16,7 @@ import {
   SET_CHAT_PAGE,
   SET_IS_LAST_PAGE,
   UNSHIFT_TO_CHAT_FLOW,
+  SET_USERS_COUNT_IN_CHAT,
 } from '@/store/types/mutations';
 
 import {
@@ -48,6 +49,7 @@ const store = new Vuex.Store({
     chatPage: 1,
     isLastPage: false,
     wsConnected: false,
+    usersCountInChat: -1,
   },
   mutations: {
     [SET_AUTHORIZED_STATE](state, payload) {
@@ -94,12 +96,16 @@ const store = new Vuex.Store({
     [SET_IS_LAST_PAGE](state, isLast) {
       state.isLastPage = isLast;
     },
+    [SET_USERS_COUNT_IN_CHAT](state, count) {
+      state.usersCountInChat = count;
+    },
   },
   actions: {
     // TODO send to server request too
     [SIGN_OUT]({ commit }) {
       commit(SET_AUTHORIZED_STATE, false);
       localStorage.removeItem('at');
+      websocketChat.closeConnection();
       window.location.href = '/signin';
     },
     [INIT_STORE_LOCALSTORAGE]({ commit }) {

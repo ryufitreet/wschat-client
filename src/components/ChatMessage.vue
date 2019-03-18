@@ -11,7 +11,9 @@
       >
         {{ user.login }}
       </div>
-      <div :class="$style['message-text']">{{ message.message }}</div>
+      <div :class="$style['message-text']">
+        <pre>{{ message.message }}</pre>
+      </div>
       <div :class="$style['time']">{{ time }}</div>
     </div>
   </div>

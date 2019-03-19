@@ -8,4 +8,4 @@ Client: Vue, WebSocket, SharedWorker
 Server: Express, ws, Sequelize
 
 Gif:
-![](name-of-giphy.gif)
+![](common.gif)

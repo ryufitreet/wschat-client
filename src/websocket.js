@@ -84,9 +84,11 @@ class WebSocketChat {
   }
 
   closeConnection() {
-    this.worker.port.postMessage({
-      e: 'CLOSE_CONNECTION',
-    });
+    if (this.worker) {
+      this.worker.port.postMessage({
+        e: 'CLOSE_CONNECTION',
+      });  
+    }    
   }
 
   onWsMessage(wsMessage) {

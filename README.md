@@ -1,29 +1,9 @@
-# chat
+Client side of WS Chat.
+Server side - https://github.com/ryufitreet/wschat-server
 
-## Project setup
-```
 npm install
-```
-
-### Compiles and hot-reloads for development
-```
 npm run serve
-```
 
-### Compiles and minifies for production
-```
-npm run build
-```
+Client: Vue, WebSocket, SharedWorker
+Server: Express, ws, Sequelize
 
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

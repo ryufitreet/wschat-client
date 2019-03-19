@@ -1,7 +1,7 @@
-Client side of WS Chat.
+Client side of WS Chat.  
 Server side - https://github.com/ryufitreet/wschat-server
 
-**npm install** 
+**npm install**  
 **npm run serve**   
 
 ### Client
